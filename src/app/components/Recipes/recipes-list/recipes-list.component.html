@@ -9,6 +9,7 @@
     <app-recipes-item
       *ngFor="let recipe of recipes"
       [recipe]="recipe"
+      (activeRecipe)="onActiveRecipe(recipe)"
     ></app-recipes-item>
   </div>
 </div>

@@ -1,8 +1,16 @@
 <div class="row">
   <div class="col-md-5">
-    <app-recipes-list></app-recipes-list>
+    <app-recipes-list
+      (setActiveRecipe)="onSetActiveRecipe($event)"
+    ></app-recipes-list>
   </div>
   <div class="col-md-7">
-    <app-recipes-detail></app-recipes-detail>
+    <app-recipes-detail
+      *ngIf="activeRecipe; else undefinedActiveRecipe"
+      [recipe]="activeRecipe"
+    ></app-recipes-detail>
+    <ng-template #undefinedActiveRecipe>
+      <p>Please select a recipe.</p>
+    </ng-template>
   </div>
 </div>
