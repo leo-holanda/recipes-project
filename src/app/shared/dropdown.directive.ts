@@ -1,4 +1,4 @@
-import { Directive, HostBinding, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostBinding, HostListener } from '@angular/core';
 
 //open
 @Directive({
@@ -7,11 +7,20 @@ import { Directive, HostBinding, HostListener } from '@angular/core';
 export class DropdownDirective {
   isMenuOpen = false
 
-  constructor() { }
+  constructor( private elementRef: ElementRef) { }
+
+  hasClickedOnMenu(event: Event){
+    return this.elementRef.nativeElement.contains(event.target)
+  }
 
   @HostBinding('class') classes: string
-  @HostListener('click') toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen
+  @HostListener('document:click', ['$event']) toggleMenu(event: Event) {
+    if(this.hasClickedOnMenu(event)){
+      this.isMenuOpen = !this.isMenuOpen
+    } else{
+      this.isMenuOpen = false
+    }
+
     this.classes = this.isMenuOpen ? 'dropdown open' : 'dropdown'
   }
 
