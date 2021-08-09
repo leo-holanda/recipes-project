@@ -5,15 +5,11 @@ import { Ingredient } from 'src/app/shared/ingredient.model';
   providedIn: 'root'
 })
 export class ShoppingService {
-  ingredientAdded = new EventEmitter<Ingredient>();
+  ingredientsChanged = new EventEmitter<Ingredient[]>();
 
   constructor() { }
 
-  private ingredients: Ingredient[] = [
-    new Ingredient('Frango', 1),
-    new Ingredient('Farinha', 5),
-    new Ingredient('Queijo', 3)
-  ];
+  private ingredients: Ingredient[] = []
 
   getIngredients(){
     return this.ingredients.slice()
@@ -21,6 +17,11 @@ export class ShoppingService {
 
   addIngredient(name: string, quantity: number){
     this.ingredients.push(new Ingredient(name, quantity));
-    this.ingredientAdded.emit(new Ingredient(name, quantity))
+    this.ingredientsChanged.emit(this.ingredients.slice())
+  }
+
+  addIngredients(ingredients: Ingredient[]){
+    this.ingredients.push(...ingredients);
+    this.ingredientsChanged.emit(this.ingredients.slice());
   }
 }
